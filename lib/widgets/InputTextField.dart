@@ -27,12 +27,32 @@ class InputTextField extends StatefulWidget {
 }
 
 class _InputTextField extends State<InputTextField> {
+  FocusNode _focusNode;
   bool obscureText;
+  final Border disabledBorder = Border.all(color: outlineColor, width: 1);
+  final Border activeBorder = Border.all(color: primaryColor, width: 2);
+  Border _border;
 
   @override
   void initState() {
+    _border = disabledBorder;
     obscureText = widget.obscureText;
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      setState(() {
+        if (_focusNode.hasFocus)
+          _border = activeBorder;
+        else
+          _border = disabledBorder;
+      });
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,7 +61,7 @@ class _InputTextField extends State<InputTextField> {
       padding: EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
-        border: Border.all(color: outlineColor, width: 1),
+        border: _border,
         borderRadius: BorderRadius.circular(32),
       ),
       child: Row(
@@ -67,6 +87,7 @@ class _InputTextField extends State<InputTextField> {
                 border: InputBorder.none,
               ),
               obscureText: obscureText,
+              focusNode: _focusNode,
               onChanged: widget.onChanged,
               onSubmitted: widget.onSubmitted,
             ),

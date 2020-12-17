@@ -60,6 +60,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _counter(23, S.current.Problems),
                     _counter(42, S.current.Following),
@@ -94,6 +95,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _counter(int count, String text) {
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -104,6 +106,7 @@ class ProfileScreen extends StatelessWidget {
           Text(
             text,
             style: textTheme.subtitle2,
+            textAlign: TextAlign.center,
           ),
         ],
       ),

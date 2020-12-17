@@ -29,97 +29,100 @@ class _BottomTabBar extends State<BottomTabBar> {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      child: SizedBox(
-        height: 103,
-        child: Stack(
-          overflow: Overflow.visible,
-          fit: StackFit.expand,
-          alignment: Alignment.bottomCenter,
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 45,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => selectedTab != 0
-                        ? Navigator.pushReplacementNamed(
-                        context, HomeRoute)
-                        : null,
-                    child: SvgPicture.asset(
-                      "assets/icons/Home.svg",
-                      color: _color(0),
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, UploadStep1Route),
-                    child: SvgPicture.asset(
-                      "assets/icons/Edit.svg",
-                      color: _color(1),
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 56,
-                  ),
-                  SvgPicture.asset(
-                    "assets/icons/Notification.svg",
-                    color: _color(2),
+      decoration: BoxDecoration(color: backgroundColor, boxShadow: [
+        BoxShadow(
+          color: Color(0xFF0046CF).withOpacity(0.03),
+          blurRadius: 56,
+          spreadRadius: 8,
+          offset: Offset(0, -4)
+        ),
+      ]),
+      child: Stack(
+        overflow: Overflow.visible,
+        fit: StackFit.expand,
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 45,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () => selectedTab != 0
+                      ? Navigator.pushReplacementNamed(context, HomeRoute)
+                      : null,
+                  child: SvgPicture.asset(
+                    "assets/icons/Home.svg",
+                    color: _color(0),
                     width: 24,
                     height: 24,
                   ),
-                  GestureDetector(
-                    onTap: () => selectedTab != 3
-                        ? Navigator.pushReplacementNamed(
-                            context, MyProfileRoute)
-                        : null,
-                    child: SvgPicture.asset(
-                      "assets/icons/Profile.svg",
-                      color: _color(3),
-                      width: 24,
-                      height: 24,
-                    ),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, UploadStep1Route),
+                  child: SvgPicture.asset(
+                    "assets/icons/Edit.svg",
+                    color: _color(1),
+                    width: 24,
+                    height: 24,
                   ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 47,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: widget.scannerAction == null
-                    ? () => showMaterialModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => ScanCategoryScreen(),
-                        )
-                    : widget.scannerAction,
-                child: Container(
-                  height: 56,
+                ),
+                SizedBox(
                   width: 56,
-                  decoration: BoxDecoration(
-                    color: indicatorColor,
-                    shape: BoxShape.circle,
+                ),
+                SvgPicture.asset(
+                  "assets/icons/Notification.svg",
+                  color: _color(2),
+                  width: 24,
+                  height: 24,
+                ),
+                GestureDetector(
+                  onTap: () => selectedTab != 3
+                      ? Navigator.pushReplacementNamed(context, MyProfileRoute)
+                      : null,
+                  child: SvgPicture.asset(
+                    "assets/icons/Profile.svg",
+                    color: _color(3),
+                    width: 24,
+                    height: 24,
                   ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      "assets/icons/Scan.svg",
-                      color: Colors.white,
-                      width: 22,
-                      height: 18,
-                    ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 47,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: widget.scannerAction == null
+                  ? () => showMaterialModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) => ScanCategoryScreen(),
+                      )
+                  : widget.scannerAction,
+              child: Container(
+                height: 56,
+                width: 56,
+                decoration: BoxDecoration(
+                  color: indicatorColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    "assets/icons/Scan.svg",
+                    color: Colors.white,
+                    width: 22,
+                    height: 18,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

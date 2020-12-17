@@ -7,22 +7,23 @@ import 'package:flutter/material.dart';
 class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 43),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _images(),
-                _text(context),
-                _button(context),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _images(),
+                  _text(context),
+                  _button(context),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 50)
-        ],
+            SizedBox(height: 50)
+          ],
+        ),
       ),
     );
   }

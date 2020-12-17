@@ -1,8 +1,9 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/main.dart';
+import 'package:esap/routes.dart';
 import 'package:esap/style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:esap/states/DataState.dart';
 
 class UploadSuccessScreen extends StatelessWidget {
   @override
@@ -40,9 +41,14 @@ class UploadSuccessScreen extends StatelessWidget {
             ),
             SizedBox(height: 50),
             GestureDetector(
-              onTap: () => Navigator.popUntil(
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
+                ProblemRoute,
                 ModalRoute.withName(HomeRoute),
+                arguments: {
+                  "problem": Provider.of<DataState>(context, listen: false)
+                      .problems[0],
+                },
               ),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 37, vertical: 19),

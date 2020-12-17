@@ -33,6 +33,7 @@ dependencies:
   pin_code_fields: ^6.0.1
   dotted_border: ^1.0.7
   modal_bottom_sheet: ^1.0.0+1
+  provider: ^4.3.2+3
 
 dev_dependencies:
   flutter_test:

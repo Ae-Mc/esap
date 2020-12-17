@@ -1,5 +1,8 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/models/Problem.dart';
+import 'package:esap/models/User.dart';
+import 'package:esap/widgets/GuaranteedImage.dart';
+import 'package:provider/provider.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/BottomTabBar.dart';
 import 'package:esap/widgets/MyDivider.dart';
@@ -7,6 +10,10 @@ import 'package:esap/widgets/ProblemList.dart';
 import 'package:flutter/material.dart';
 
 class MyProfileScreen extends StatelessWidget {
+  final User user;
+
+  MyProfileScreen(this.user);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +32,11 @@ class MyProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 ClipOval(
-                  child: Image.asset(
-                    "assets/images/author_01.jpg",
+                  child: GuaranteedImage(
+                    user.imageAsset,
                     width: 100,
                     height: 100,
+                    color: secondaryTextColor,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -113,7 +121,7 @@ class MyProfileScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _problems(),
+            _problems(context),
             _following(),
           ],
         ),
@@ -121,8 +129,8 @@ class MyProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _problems() {
-    return ProblemList(Problem.allProblems());
+  Widget _problems(BuildContext context) {
+    return ProblemList(Provider.of<DataState>(context).problems);
   }
 
   Widget _following() {

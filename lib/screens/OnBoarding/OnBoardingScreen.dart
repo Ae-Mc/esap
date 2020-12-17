@@ -1,10 +1,10 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/main.dart';
+import 'package:esap/routes.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/CustomButton.dart';
 import 'package:flutter/material.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnBoardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

@@ -1,9 +1,11 @@
-import 'package:esap/main.dart';
+import 'package:esap/routes.dart';
 import 'package:esap/screens/Scanner/ScanCategoryScreen.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 class BottomTabBar extends StatefulWidget {
   final Function scannerAction;
@@ -20,7 +22,6 @@ class _BottomTabBar extends State<BottomTabBar> {
 
   @override
   void initState() {
-    // TODO: implement initState
     selectedTab = widget.selectedTab;
     super.initState();
   }
@@ -31,11 +32,10 @@ class _BottomTabBar extends State<BottomTabBar> {
       height: 80,
       decoration: BoxDecoration(color: backgroundColor, boxShadow: [
         BoxShadow(
-          color: Color(0xFF0046CF).withOpacity(0.03),
-          blurRadius: 56,
-          spreadRadius: 8,
-          offset: Offset(0, -4)
-        ),
+            color: Color(0xFF0046CF).withOpacity(0.03),
+            blurRadius: 56,
+            spreadRadius: 8,
+            offset: Offset(0, -4)),
       ]),
       child: Stack(
         overflow: Overflow.visible,
@@ -81,7 +81,16 @@ class _BottomTabBar extends State<BottomTabBar> {
                 ),
                 GestureDetector(
                   onTap: () => selectedTab != 3
-                      ? Navigator.pushReplacementNamed(context, MyProfileRoute)
+                      ? Navigator.pushReplacementNamed(
+                          context,
+                          MyProfileRoute,
+                          arguments: {
+                            "user": Provider.of<DataState>(
+                              context,
+                              listen: false,
+                            ).getAuthorById(0),
+                          },
+                        )
                       : null,
                   child: SvgPicture.asset(
                     "assets/icons/Profile.svg",

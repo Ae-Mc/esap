@@ -1,13 +1,14 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/main.dart';
+import 'package:esap/routes.dart';
 import 'package:esap/models/Category.dart';
-import 'package:esap/models/Problem.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/BottomTabBar.dart';
 import 'package:esap/widgets/MyDivider.dart';
 import 'package:esap/widgets/ProblemList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   createState() => _HomeScreen();
@@ -78,7 +79,7 @@ class _HomeScreen extends State<HomeScreen> {
               "assets/icons/Search.svg",
               width: 18,
               height: 18,
-              color: Color(0xFF3E5481),
+              color: headerColor,
             ),
             SizedBox(
               width: 11,
@@ -120,11 +121,13 @@ class _HomeScreen extends State<HomeScreen> {
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: Category.allCategories().length,
+            itemCount: Provider.of<DataState>(context).categories.length,
             itemBuilder: (context, index) {
-              Category category = Category.allCategories()[index];
-              bool isChoosed = category.id == _chosenCategory;
-              bool isLatest = index == Category.allCategories().length - 1;
+              Category category =
+              Provider.of<DataState>(context).categories.elementAt(index);
+              bool isChosen = category.id == _chosenCategory;
+              bool isLatest =
+                  index == Provider.of<DataState>(context).categories.length - 1;
 
               return GestureDetector(
                 onTap: () {
@@ -135,7 +138,7 @@ class _HomeScreen extends State<HomeScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     color:
-                        isChoosed ? Theme.of(context).primaryColor : formColor,
+                        isChosen ? Theme.of(context).primaryColor : formColor,
                     borderRadius: BorderRadius.circular(32),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 24),
@@ -146,8 +149,8 @@ class _HomeScreen extends State<HomeScreen> {
                         text: category.name,
                         style: TextStyle(
                             color:
-                                isChoosed ? Colors.white : secondaryTextColor,
-                            fontWeight: isChoosed ? FontWeight.w700 : null),
+                                isChosen ? Colors.white : secondaryTextColor,
+                            fontWeight: isChosen ? FontWeight.w700 : null),
                       ),
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
@@ -192,7 +195,7 @@ class _HomeScreen extends State<HomeScreen> {
         ),
         body: TabBarView(
           children: [
-            _news(),
+            _news(context),
             _near(),
           ],
         ),
@@ -200,8 +203,8 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  Widget _news() {
-    return ProblemList(Problem.allProblems());
+  Widget _news(BuildContext context) {
+    return ProblemList(Provider.of<DataState>(context).problems);
   }
 
   Widget _near() {

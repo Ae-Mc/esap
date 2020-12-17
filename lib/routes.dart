@@ -1,0 +1,15 @@
+const String HomeRoute = "/";
+const String UploadStep1Route = "/Upload/Step1";
+const String UploadStep2Route = "/Upload/Step2";
+const String ScannerRoute = "/Scanner";
+const String MyProfileRoute = "/MyProfile";
+const String ProfileRoute = "/Profile";
+const String ProblemRoute = "/Problem";
+const String FocusedSearchRoute = "/FocusedSearch";
+const String SubmittedSearchRoute = "/SubmittedSearch";
+const String OnBoardingRoute = "/OnBoarding";
+const String SignInRoute = "/SignIn";
+const String RegistrationRoute = "/Registration";
+const String VerificationRoute = "/Verification";
+const String PasswordRecoveryRoute = "/PasswordRecovery";
+const String PasswordResetRoute = "/PasswordRecovery/PasswordReset";

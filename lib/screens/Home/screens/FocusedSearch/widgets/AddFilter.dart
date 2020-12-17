@@ -1,3 +1,5 @@
+import 'package:esap/states/DataState.dart';
+import 'package:provider/provider.dart';
 import 'package:esap/generated/l10n.dart';
 import 'package:esap/models/Category.dart';
 import 'package:esap/style.dart';
@@ -62,11 +64,13 @@ class _AddFilter extends State<AddFilter> {
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: Category.allCategories().length,
+        itemCount: Provider.of<DataState>(context).categories.length,
         itemBuilder: (context, index) {
-          Category category = Category.allCategories()[index];
+          Category category =
+              Provider.of<DataState>(context).categories.elementAt(index);
           bool isChosen = category.id == _chosenCategory;
-          bool isLatest = index == Category.allCategories().length - 1;
+          bool isLatest =
+              index == Provider.of<DataState>(context).categories.length - 1;
 
           return GestureDetector(
             onTap: () {

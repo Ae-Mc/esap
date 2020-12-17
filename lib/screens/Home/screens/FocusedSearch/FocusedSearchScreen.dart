@@ -1,9 +1,8 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/main.dart';
-import 'package:esap/screens/home/screens/FocusedSearch/widgets/AddFilter.dart';
+import 'package:esap/routes.dart';
+import 'package:esap/screens/Home/screens/FocusedSearch/widgets/AddFilter.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/MyDivider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,24 +17,12 @@ class FocusedSearchScreen extends StatefulWidget {
 
 class _FocusedSearchScreen extends State<FocusedSearchScreen>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
   String searchText;
 
   @override
   void initState() {
-    _animationController = AnimationController(
-      duration: Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animationController.addStatusListener(animationStatusListener);
     searchText = widget.searchText;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 
   void animationStatusListener(AnimationStatus status) {
@@ -89,9 +76,11 @@ class _FocusedSearchScreen extends State<FocusedSearchScreen>
           ),
           SizedBox(width: 24),
           GestureDetector(
-            onTap: () {
-              Navigator.push(context, MyPopupRoute());
-            },
+            onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (_) => AddFilter(),
+              backgroundColor: Colors.transparent,
+            ),
             child: SizedBox(
               width: 24,
               height: 24,
@@ -121,7 +110,7 @@ class _FocusedSearchScreen extends State<FocusedSearchScreen>
               "assets/icons/Search.svg",
               width: 18,
               height: 18,
-              color: Color(0xFF3E5481),
+              color: headerColor,
             ),
             SizedBox(
               width: 11,
@@ -249,64 +238,4 @@ class _FocusedSearchScreen extends State<FocusedSearchScreen>
       ],
     );
   }
-}
-
-class MyPopupRoute extends PopupRoute<void> {
-  @override
-  Color get barrierColor => Colors.black54;
-
-  @override
-  bool get barrierDismissible => true;
-  @override
-  String get barrierLabel => "Close";
-
-  @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
-    return Scaffold(
-      backgroundColor: barrierColor,
-      body: Stack(
-        children: [
-          PositionedTransition(
-            rect: RelativeRectTween(
-              begin: RelativeRect.fromSize(
-                Rect.fromLTRB(
-                  0,
-                  MediaQuery.of(context).size.height,
-                  MediaQuery.of(context).size.width,
-                  MediaQuery.of(context).size.height + 467,
-                ),
-                MediaQuery.of(context).size,
-              ),
-              end: RelativeRect.fromSize(
-                Rect.fromLTRB(
-                  0,
-                  MediaQuery.of(context).size.height - 467,
-                  MediaQuery.of(context).size.width,
-                  MediaQuery.of(context).size.height,
-                ),
-                MediaQuery.of(context).size,
-              ),
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: Curves.ease,
-              ),
-            ),
-            child: Material(
-              elevation: 20,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(32),
-                topRight: Radius.circular(32),
-              ),
-              child: AddFilter(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 300);
 }

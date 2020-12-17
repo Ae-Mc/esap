@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:esap/generated/l10n.dart';
 import 'package:esap/models/Problem.dart';
 import 'package:esap/style.dart';
+import 'package:esap/widgets/GuaranteedImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -164,15 +165,16 @@ class ProblemDetailsScreen extends StatelessWidget {
         Row(
           children: [
             ClipOval(
-              child: Image.asset(
-                problem.authorImageUrl,
+              child: GuaranteedImage(
+                problem.author.imageAsset,
                 width: 32,
                 height: 32,
+                color: secondaryTextColor,
               ),
             ),
             SizedBox(width: 8),
             Text(
-              problem.author,
+              problem.author.name,
               style: textTheme.headline3,
             )
           ],

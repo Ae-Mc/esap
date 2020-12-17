@@ -1,5 +1,5 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/models/Problem.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/BottomTabBar.dart';
 import 'package:esap/widgets/MyDivider.dart';
@@ -7,6 +7,7 @@ import 'package:esap/widgets/ProblemList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SubmittedSearchScreen extends StatefulWidget {
   final String searchText;
@@ -55,7 +56,7 @@ class _SubmittedSearchScreen extends State<SubmittedSearchScreen>
           MyDivider(),
           Expanded(
             child: SingleChildScrollView(
-              child: ProblemList(Problem.allProblems()),
+              child: ProblemList(Provider.of<DataState>(context).problems),
             ),
           ),
         ],
@@ -119,7 +120,7 @@ class _SubmittedSearchScreen extends State<SubmittedSearchScreen>
               "assets/icons/Search.svg",
               width: 18,
               height: 18,
-              color: Color(0xFF3E5481),
+              color: headerColor,
             ),
             SizedBox(
               width: 11,

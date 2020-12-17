@@ -1,17 +1,18 @@
 import 'package:esap/generated/l10n.dart';
-import 'package:esap/models/Problem.dart';
+import 'package:esap/models/User.dart';
+import 'package:esap/widgets/GuaranteedImage.dart';
+import 'package:provider/provider.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:esap/widgets/CustomButton.dart';
 import 'package:esap/widgets/MyDivider.dart';
 import 'package:esap/widgets/ProblemList.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String name;
-  final String imageAsset;
+  final User user;
 
-  ProfileScreen(this.name, {this.imageAsset});
+  ProfileScreen(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -37,24 +38,17 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 ClipOval(
-                  child: imageAsset == null
-                      ? SvgPicture.asset(
-                          "assets/icons/Image.svg",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fill,
-                          color: secondaryTextColor,
-                        )
-                      : Image.asset(
-                          imageAsset,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                  child: GuaranteedImage(
+                    user.imageAsset,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    color: secondaryTextColor,
+                  ),
                 ),
                 SizedBox(height: 24),
                 Text(
-                  name,
+                  user.nickname,
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 SizedBox(height: 24),
@@ -144,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            _problems(),
+            _problems(context),
             _following(),
           ],
         ),
@@ -152,8 +146,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _problems() {
-    return ProblemList(Problem.allProblems());
+  Widget _problems(BuildContext context) {
+    return ProblemList(Provider.of<DataState>(context).problems);
   }
 
   Widget _following() {

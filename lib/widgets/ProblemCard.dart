@@ -1,14 +1,14 @@
 import 'dart:ui';
 
-import 'package:esap/main.dart';
+import 'package:esap/routes.dart';
 import 'package:esap/models/Problem.dart';
 import 'package:esap/style.dart';
+import 'package:esap/widgets/GuaranteedImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProblemCard extends StatelessWidget {
-  static const String _noImageAsset = "assets/icons/Image.svg";
   final Problem problem;
 
   ProblemCard(this.problem);
@@ -52,37 +52,31 @@ class ProblemCard extends StatelessWidget {
       onTap: () => Navigator.pushNamed(
         context,
         ProfileRoute,
-        arguments: {
-          "name": problem.author,
-          "imageAsset": problem.authorImageUrl
-        },
+        arguments: {"user": problem.author},
       ),
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(11),
-            child: problem.authorImageUrl == null
-                ? SvgPicture.asset(
-                    _noImageAsset,
-                    width: 31,
-                    height: 31,
-                    fit: BoxFit.fill,
-                    color: Color(0xFF9FA5C0),
-                  )
-                : Image.asset(
-                    problem.authorImageUrl,
-                    width: 31,
-                    height: 31,
-                    fit: BoxFit.fill,
-                  ),
+            child: GuaranteedImage(
+              problem.author.imageAsset,
+              width: 31,
+              height: 31,
+              color: secondaryTextColor,
+            ),
           ),
           SizedBox(width: 8),
-          Text(
-            problem.author,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(letterSpacing: 0.4),
+          Flexible(
+            child: Text(
+              problem.author.nickname,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(letterSpacing: 0.4),
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
           ),
         ],
       ),
@@ -94,20 +88,13 @@ class ProblemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Stack(
         children: [
-          problem.imageUrl == null
-              ? SvgPicture.asset(
-                  _noImageAsset,
-                  width: 151,
-                  height: 151,
-                  fit: BoxFit.fill,
-                  color: Color(0xFF9FA5C0),
-                )
-              : Image.asset(
-                  problem.imageUrl,
-                  width: 151,
-                  height: 151,
-                  fit: BoxFit.cover,
-                ),
+          GuaranteedImage(
+            problem.imageUrl,
+            width: 151,
+            height: 151,
+            fit: BoxFit.cover,
+            color: secondaryTextColor,
+          ),
           Positioned(
             top: 16,
             right: 16,
@@ -152,12 +139,17 @@ class ProblemCard extends StatelessWidget {
           height: 5,
         ),
         SizedBox(width: 8),
-        Text.rich(
-          TextSpan(
-            text: problem.difficultyString(),
-            style: TextStyle(color: _difficultyColor(), letterSpacing: 0.3),
+        Flexible(
+          child: Text.rich(
+            TextSpan(
+              text: problem.difficultyString(),
+              style: TextStyle(color: _difficultyColor(), letterSpacing: 0.3),
+            ),
+            style: Theme.of(context).textTheme.subtitle1,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.fade,
           ),
-          style: Theme.of(context).textTheme.subtitle1,
         ),
       ],
     );

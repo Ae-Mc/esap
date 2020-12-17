@@ -11,28 +11,15 @@ import 'package:esap/screens/Upload/UploadStep2Screen.dart';
 import 'package:esap/screens/home/HomeScreen.dart';
 import 'package:esap/screens/home/screens/FocusedSearch/FocusedSearchScreen.dart';
 import 'package:esap/screens/home/screens/SubmittedSearch/SubmittedSearchScreen.dart';
-import 'package:esap/screens/onboarding/OnboardingScreen.dart';
+import 'package:esap/screens/OnBoarding/OnBoardingScreen.dart';
 import 'package:esap/screens/registration/RegistrationScreen.dart';
 import 'package:esap/screens/verification/VerificationScreen.dart';
+import 'package:esap/routes.dart';
+import 'package:esap/states/DataState.dart';
 import 'package:esap/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-const String HomeRoute = "/";
-const String UploadStep1Route = "/Upload/Step1";
-const String UploadStep2Route = "/Upload/Step2";
-const String ScannerRoute = "/Scanner";
-const String MyProfileRoute = "/MyProfile";
-const String ProfileRoute = "/Profile";
-const String ProblemRoute = "/Problem";
-const String FocusedSearchRoute = "/FocusedSearch";
-const String SubmittedSearchRoute = "/SubmittedSearch";
-const String OnboardingRoute = "/Onboarding";
-const String SignInRoute = "/SignIn";
-const String RegistrationRoute = "/Registration";
-const String VerificationRoute = "/Verification";
-const String PasswordRecoveryRoute = "/PasswordRecovery";
-const String PasswordResetRoute = "/PasswordRecovery/PasswordReset";
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,20 +29,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      onGenerateRoute: routes,
-      initialRoute: OnboardingRoute,
-      theme: _theme(),
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      locale: Locale.fromSubtags(languageCode: "ru"),
-      debugShowCheckedModeBanner: false,
+    return Provider(
+      create: (_) => DataState(),
+      lazy: true,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        onGenerateRoute: routes,
+        initialRoute: OnBoardingRoute,
+        theme: _theme(),
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        locale: Locale.fromSubtags(languageCode: "ru"),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 
@@ -78,15 +69,10 @@ class MyApp extends StatelessWidget {
         screen = ScannerScreen();
         break;
       case MyProfileRoute:
-        screen = MyProfileScreen();
+        screen = MyProfileScreen(arguments["user"]);
         break;
       case ProfileRoute:
-        screen = ProfileScreen(
-          arguments["name"],
-          imageAsset: arguments.containsKey("imageAsset")
-              ? arguments["imageAsset"]
-              : null,
-        );
+        screen = ProfileScreen(arguments["user"]);
         break;
       case ProblemRoute:
         screen = ProblemDetailsScreen(arguments["problem"]);
@@ -97,8 +83,8 @@ class MyApp extends StatelessWidget {
       case SubmittedSearchRoute:
         screen = SubmittedSearchScreen(arguments["searchText"]);
         break;
-      case OnboardingRoute:
-        screen = OnboardingScreen();
+      case OnBoardingRoute:
+        screen = OnBoardingScreen();
         break;
       case RegistrationRoute:
         screen = RegistrationScreen();
